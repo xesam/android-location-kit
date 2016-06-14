@@ -1,4 +1,4 @@
-package dev.xesam.liblocation;
+package dev.xeam.android.lib.location;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

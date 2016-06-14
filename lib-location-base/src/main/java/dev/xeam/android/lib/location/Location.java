@@ -1,4 +1,4 @@
-package dev.xesam.liblocation;
+package dev.xeam.android.lib.location;
 
 /**
  * Created by xesamguo@gmail.com on 16-6-13.
