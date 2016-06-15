@@ -13,6 +13,7 @@ import android.widget.TextSwitcher;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import dev.xesam.libbaidulocatioin.BaiduLocationClient;
 import dev.xesam.libgaodelocation.GaodeLocationClient;
 import dev.xesam.liblocation.CLocation;
 import dev.xesam.liblocation.CLocationClient;
@@ -84,8 +85,21 @@ public class LocationFragment extends Fragment {
 
     @OnClick(R.id.request_single)
     public void requestSingle() {
-        if (mType == Type.GAODE){
+        if (mType == Type.GAODE) {
             CLocationClient locationClient = new GaodeLocationClient(getContext());
+            locationClient.requestSingleUpdate(new CLocationListener() {
+                @Override
+                public void onLocateSuccess(CLocationClient locationClient, CLocation location) {
+                    vConsole.setText(location.toString());
+                }
+
+                @Override
+                public void onLocateFail(CLocationClient locationClient, CLocationException e) {
+                    vConsole.setText(e.toString());
+                }
+            });
+        } else if (mType == Type.BAIDU) {
+            CLocationClient locationClient = new BaiduLocationClient(getContext());
             locationClient.requestSingleUpdate(new CLocationListener() {
                 @Override
                 public void onLocateSuccess(CLocationClient locationClient, CLocation location) {

@@ -5,5 +5,5 @@ package dev.xesam.liblocation;
  */
 public class CLocationConstant {
 
-    public static final int LOCATION_INTERVAL = 2000;
+    public static final int LOCATION_INTERVAL = 10_000;
 }

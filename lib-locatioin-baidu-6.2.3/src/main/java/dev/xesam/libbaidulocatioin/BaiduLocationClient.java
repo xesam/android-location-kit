@@ -1,17 +1,9 @@
 package dev.xesam.libbaidulocatioin;
 
 import android.content.Context;
-import android.content.Intent;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import dev.xesam.liblocation.CLocationClient;
 import dev.xesam.liblocation.CLocationConstant;
@@ -22,39 +14,17 @@ import dev.xesam.liblocation.CLocationListener;
  */
 public class BaiduLocationClient implements CLocationClient {
     public com.baidu.location.LocationClient mLocationClient = null;
-    public BDLocationListener myListener = new BDLocationListener() {
-        @Override
-        public void onReceiveLocation(BDLocation location) {
 
-            Date date = null;
-            try {
-                date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).parse(location.getTime());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            String dateString = new SimpleDateFormat("HH:mm:ss", Locale.CHINA).format(date.getTime());
-            StringBuffer sb = new StringBuffer(256)
-                    .append(location.getLocType()).append(",")
-                    .append(dateString).append(",")
-                    .append(location.getLatitude()).append(",")
-                    .append(location.getLongitude());
-
-            Intent intent = new Intent();
-            intent.setAction(BaiduLocationReceiver.ACTION_LOCATION);
-            intent.putExtra(BaiduLocationReceiver.EXTRA_LOCATION, sb.toString());
-            mContext.sendBroadcast(intent);
-        }
-    };
     private Context mContext;
 
-    public void onCreate(Context context) {
+    public BaiduLocationClient(Context context) {
         mContext = context.getApplicationContext();
-        mLocationClient = new LocationClient(context.getApplicationContext());     //声明LocationClient类
-        mLocationClient.registerLocationListener(myListener);
-        initLocation();
+        mLocationClient = new LocationClient(mContext);     //声明LocationClient类
+        mLocationClient.registerLocationListener(new NormalLocationListener(this));
+        mLocationClient.setLocOption(getDefaultOption());
     }
 
-    private void initLocation() {
+    private LocationClientOption getDefaultOption() {
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
         option.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系
@@ -67,12 +37,22 @@ public class BaiduLocationClient implements CLocationClient {
         option.setIgnoreKillProcess(false);//可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
         option.SetIgnoreCacheException(false);//可选，默认false，设置是否收集CRASH信息，默认收集
 //        option.setEnableSimulateGps(false);//可选，默认false，设置是否需要过滤gps仿真结果，默认需要
-        mLocationClient.setLocOption(option);
+        return option;
     }
 
     @Override
     public void requestSingleUpdate(CLocationListener locationListener) {
-
+        final LocationClient bdLocationClient = new LocationClient(mContext);     //声明LocationClient类
+        bdLocationClient.registerLocationListener(new NormalLocationListener(this, locationListener, new Runnable() {
+            @Override
+            public void run() {
+                bdLocationClient.stop();
+            }
+        }));
+        LocationClientOption option = getDefaultOption();
+        option.setScanSpan(0);
+        bdLocationClient.setLocOption(option);
+        bdLocationClient.start();
     }
 
     @Override
