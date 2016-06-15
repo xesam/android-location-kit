@@ -1,1 +1,13 @@
-<manifest package="dev.xesam.libbaidulocatioin623"></manifest>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="dev.xesam.libbaidulocatioin623">
+
+    <application>
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="wzbApQE7vRxSBMWm8vnFQVQ3" />
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
+    </application>
+</manifest>

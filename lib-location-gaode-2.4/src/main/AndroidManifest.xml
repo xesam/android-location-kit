@@ -1,4 +1,28 @@
-<manifest package="dev.xesam.libgaodelocation24">
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="dev.xesam.libgaodelocation">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_GPS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+
+    <application>
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="a3d594b7a46517d2c46a1d14d6121e5a" />
+        <service android:name="com.amap.api.location.APSService" />
+    </application>
 
 </manifest>

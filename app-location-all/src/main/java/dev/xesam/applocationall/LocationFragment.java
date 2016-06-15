@@ -11,10 +11,10 @@ import android.widget.Button;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class LocationFragment extends Fragment {
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -44,6 +44,11 @@ public class LocationFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
@@ -65,12 +70,22 @@ public class LocationFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    @OnClick(R.id.request_single)
+    public void requestSingle() {
+
+    }
+
+    @OnClick(R.id.start_locate)
+    public void startLocate() {
+
+    }
+
+    @OnClick(R.id.stop_locate)
+    public void stopLocate() {
+
     }
 }
