@@ -17,14 +17,20 @@ class NormalLocationListener implements AMapLocationListener {
 
     private GaodeLocationClient mLocationClient;
     private CLocationListener mCLocationListener;
+    private Runnable mCallback;
 
     public NormalLocationListener(GaodeLocationClient locationClient) {
         this(locationClient, null);
     }
 
     public NormalLocationListener(GaodeLocationClient locationClient, CLocationListener c) {
+        this(locationClient, c, null);
+    }
+
+    public NormalLocationListener(GaodeLocationClient locationClient, CLocationListener c, Runnable callback) {
         this.mLocationClient = locationClient;
         this.mCLocationListener = c;
+        this.mCallback = callback;
     }
 
     @Override
@@ -51,6 +57,9 @@ class NormalLocationListener implements AMapLocationListener {
                 }
                 L.e("gaode_error", exception.toString());
             }
+        }
+        if (mCallback != null) {
+            mCallback.run();
         }
     }
 }

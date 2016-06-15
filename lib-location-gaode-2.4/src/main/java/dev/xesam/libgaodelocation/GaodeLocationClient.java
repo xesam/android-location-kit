@@ -13,10 +13,9 @@ import dev.xesam.liblocation.CLocationListener;
  * Created by xesamguo@gmail.com on 16-3-14.
  */
 public class GaodeLocationClient implements CLocationClient {
-    public AMapLocationClient mLocationClient = null;
-    public AMapLocationClientOption mLocationOption = null;
 
     private Context mContext;
+    public AMapLocationClient mLocationClient = null;
     private NormalLocationListener mNormalLocationListener;
 
     public GaodeLocationClient(Context context) {
@@ -49,11 +48,16 @@ public class GaodeLocationClient implements CLocationClient {
 
     @Override
     public void requestSingleUpdate(CLocationListener locationListener) {
-        AMapLocationClient aMapLocationClient = new AMapLocationClient(mContext.getApplicationContext());
+        final AMapLocationClient aMapLocationClient = new AMapLocationClient(mContext.getApplicationContext());
         AMapLocationClientOption option = getDefaultOption();
         option.setOnceLocation(true);
         aMapLocationClient.setLocationOption(option);
-        aMapLocationClient.setLocationListener(new NormalLocationListener(this, locationListener));
+        aMapLocationClient.setLocationListener(new NormalLocationListener(this, locationListener, new Runnable() {
+            @Override
+            public void run() {
+                aMapLocationClient.onDestroy();
+            }
+        }));
         aMapLocationClient.startLocation();
     }
 
