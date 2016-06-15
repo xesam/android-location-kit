@@ -8,10 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextSwitcher;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import dev.xesam.libgaodelocation.GaodeLocationClient;
+import dev.xesam.liblocation.CLocation;
+import dev.xesam.liblocation.CLocationClient;
+import dev.xesam.liblocation.CLocationException;
+import dev.xesam.liblocation.CLocationListener;
 
 
 public class LocationFragment extends Fragment {
@@ -29,6 +35,9 @@ public class LocationFragment extends Fragment {
 
     @Bind(R.id.stop_locate)
     public Button vStop;
+
+    @Bind(R.id.console)
+    public TextSwitcher vConsole;
 
     public LocationFragment() {
         // Required empty public constructor
@@ -58,8 +67,7 @@ public class LocationFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_location, container, false);
     }
 
@@ -76,7 +84,20 @@ public class LocationFragment extends Fragment {
 
     @OnClick(R.id.request_single)
     public void requestSingle() {
+        if (mType == Type.GAODE){
+            CLocationClient locationClient = new GaodeLocationClient(getContext());
+            locationClient.requestSingleUpdate(new CLocationListener() {
+                @Override
+                public void onLocateSuccess(CLocationClient locationClient, CLocation location) {
+                    vConsole.setText(location.toString());
+                }
 
+                @Override
+                public void onLocateFail(CLocationClient locationClient, CLocationException e) {
+                    vConsole.setText(e.toString());
+                }
+            });
+        }
     }
 
     @OnClick(R.id.start_locate)

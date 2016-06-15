@@ -1,17 +1,10 @@
 package dev.xesam.libgaodelocation;
 
 import android.content.Context;
-import android.content.Intent;
 
-import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
-import com.amap.api.location.AMapLocationListener;
 
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-
-import dev.xesam.android.logtools.L;
 import dev.xesam.liblocation.CLocationClient;
 import dev.xesam.liblocation.CLocationConstant;
 import dev.xesam.liblocation.CLocationListener;
@@ -22,63 +15,46 @@ import dev.xesam.liblocation.CLocationListener;
 public class GaodeLocationClient implements CLocationClient {
     public AMapLocationClient mLocationClient = null;
     public AMapLocationClientOption mLocationOption = null;
-    public AMapLocationListener mLocationListener = new AMapLocationListener() {
-        @Override
-        public void onLocationChanged(AMapLocation amapLocation) {
-            if (amapLocation != null) {
-                if (amapLocation.getErrorCode() == 0) {
-
-                    String dateString = new SimpleDateFormat("HH:mm:ss", Locale.CHINA).format(amapLocation.getTime());
-
-                    StringBuffer sb = new StringBuffer()
-                            .append(amapLocation.getLocationType()).append(",")
-                            .append(dateString).append(",")
-                            .append(amapLocation.getLatitude()).append(",")
-                            .append(amapLocation.getLongitude());
-
-                    Intent intent = new Intent();
-                    intent.setAction(GaodeLocationReceiver.ACTION_LOCATION);
-                    intent.putExtra(GaodeLocationReceiver.EXTRA_LOCATION, sb.toString());
-                    mContext.sendBroadcast(intent);
-                } else {
-                    //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
-                    L.e("AmapError", "location Error, ErrCode:"
-                            + amapLocation.getErrorCode() + ", errInfo:"
-                            + amapLocation.getErrorInfo());
-                }
-            }
-        }
-    };
 
     private Context mContext;
+    private NormalLocationListener mNormalLocationListener;
 
-    public void onCreate(Context context) {
-        mContext = context.getApplicationContext();
-        mLocationClient = new AMapLocationClient(context.getApplicationContext());
-        mLocationClient.setLocationListener(mLocationListener);
-        initLocation();
+    public GaodeLocationClient(Context context) {
+        this.mContext = context.getApplicationContext();
+        mNormalLocationListener = new NormalLocationListener(this);
+        init(context);
     }
 
-    private void initLocation() {
+    public void init(Context context) {
+        mLocationClient = new AMapLocationClient(context.getApplicationContext());
+        mLocationClient.setLocationListener(mNormalLocationListener);
+        mLocationClient.setLocationOption(getDefaultOption());
+    }
+
+    private AMapLocationClientOption getDefaultOption() {
         //初始化定位参数
-        mLocationOption = new AMapLocationClientOption();
+        AMapLocationClientOption option = new AMapLocationClientOption();
         //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
-        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        option.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
         //设置是否只定位一次,默认为false
-        mLocationOption.setOnceLocation(false);
+        option.setOnceLocation(false);
         //设置是否强制刷新WIFI，默认为强制刷新
-        mLocationOption.setWifiActiveScan(true);
+        option.setWifiActiveScan(true);
         //设置是否允许模拟位置,默认为false，不允许模拟位置
-        mLocationOption.setMockEnable(false);
+        option.setMockEnable(false);
         //设置定位间隔,单位毫秒,默认为2000ms
-        mLocationOption.setInterval(CLocationConstant.LOCATION_INTERVAL);
-        //给定位客户端对象设置定位参数
-        mLocationClient.setLocationOption(mLocationOption);
+        option.setInterval(CLocationConstant.LOCATION_INTERVAL);
+        return option;
     }
 
     @Override
     public void requestSingleUpdate(CLocationListener locationListener) {
-
+        AMapLocationClient aMapLocationClient = new AMapLocationClient(mContext.getApplicationContext());
+        AMapLocationClientOption option = getDefaultOption();
+        option.setOnceLocation(true);
+        aMapLocationClient.setLocationOption(option);
+        aMapLocationClient.setLocationListener(new NormalLocationListener(this, locationListener));
+        aMapLocationClient.startLocation();
     }
 
     @Override

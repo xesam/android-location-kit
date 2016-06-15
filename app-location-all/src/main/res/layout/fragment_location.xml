@@ -24,4 +24,20 @@
         android:layout_height="wrap_content"
         android:text="关闭连续定位" />
 
+    <TextSwitcher
+        android:id="@+id/console"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inAnimation="@android:anim/slide_in_left"
+        android:outAnimation="@android:anim/slide_out_right">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </TextSwitcher>
+
 </LinearLayout>
