@@ -19,7 +19,7 @@ public class BaiduLocationClient implements CLocationClient {
 
     public BaiduLocationClient(Context context) {
         mContext = context.getApplicationContext();
-        mLocationClient = new LocationClient(mContext);     //声明LocationClient类
+        mLocationClient = new LocationClient(mContext);
         mLocationClient.registerLocationListener(new NormalLocationListener(this));
         mLocationClient.setLocOption(getDefaultOption());
     }

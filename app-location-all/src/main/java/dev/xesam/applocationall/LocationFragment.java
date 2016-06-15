@@ -78,6 +78,18 @@ public class LocationFragment extends Fragment {
         ButterKnife.bind(this, view);
     }
 
+    CLocationClient mCLocationClient;
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (mType == Type.GAODE) {
+            mCLocationClient = new GaodeLocationClient(getContext());
+        } else if (mType == Type.BAIDU) {
+            mCLocationClient = new BaiduLocationClient(getContext());
+        }
+    }
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -116,11 +128,11 @@ public class LocationFragment extends Fragment {
 
     @OnClick(R.id.start_locate)
     public void startLocate() {
-
+        mCLocationClient.startLocation();
     }
 
     @OnClick(R.id.stop_locate)
     public void stopLocate() {
-
+        mCLocationClient.stopLocation();
     }
 }
