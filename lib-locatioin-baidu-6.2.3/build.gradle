@@ -24,5 +24,4 @@ dependencies {
     compile project(':lib-location-core')
     compile files('libs/baidumapapi_v3_5_0.jar')
     compile files('libs/locSDK_6.23.jar')
-    compile project(':lib-kit')
 }

@@ -5,7 +5,6 @@ import android.util.Log;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 
-import dev.xesam.android.logtools.L;
 import dev.xesam.liblocation.CLocation;
 import dev.xesam.liblocation.CLocationException;
 import dev.xesam.liblocation.CLocationListener;
@@ -55,7 +54,7 @@ class NormalLocationListener implements AMapLocationListener {
                 if (mCLocationListener != null) {
                     mCLocationListener.onLocateFail(mLocationClient, exception);
                 }
-                L.e("gaode_error", exception.toString());
+                Log.e("gaode_error", exception.toString());
             }
         }
         if (mCallback != null) {

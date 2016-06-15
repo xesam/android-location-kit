@@ -1,1 +1,1 @@
-include  ':lib-location-core', ':lib-locatioin-baidu-6.2.3', ':lib-location-gaode-2.4', ':lib-kit', ':app-location-all', ':lib-location-android'
+include  ':lib-location-core', ':lib-locatioin-baidu-6.2.3', ':lib-location-gaode-2.4', ':app-location-all', ':lib-location-android'
