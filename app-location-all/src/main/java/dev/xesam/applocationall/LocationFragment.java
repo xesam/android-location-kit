@@ -19,6 +19,7 @@ import dev.xesam.liblocation.CLocation;
 import dev.xesam.liblocation.CLocationClient;
 import dev.xesam.liblocation.CLocationException;
 import dev.xesam.liblocation.CLocationListener;
+import dev.xesam.liblocationandroid.AndroidLocationClient;
 
 
 public class LocationFragment extends Fragment {
@@ -87,6 +88,8 @@ public class LocationFragment extends Fragment {
             mCLocationClient = new GaodeLocationClient(getContext());
         } else if (mType == Type.BAIDU) {
             mCLocationClient = new BaiduLocationClient(getContext());
+        } else if (mType == Type.ANDROID) {
+            mCLocationClient = new AndroidLocationClient(getContext());
         }
     }
 
@@ -112,6 +115,19 @@ public class LocationFragment extends Fragment {
             });
         } else if (mType == Type.BAIDU) {
             CLocationClient locationClient = new BaiduLocationClient(getContext());
+            locationClient.requestSingleUpdate(new CLocationListener() {
+                @Override
+                public void onLocateSuccess(CLocationClient locationClient, CLocation location) {
+                    vConsole.setText(location.toString());
+                }
+
+                @Override
+                public void onLocateFail(CLocationClient locationClient, CLocationException e) {
+                    vConsole.setText(e.toString());
+                }
+            });
+        } else if (mType == Type.ANDROID) {
+            CLocationClient locationClient = new AndroidLocationClient(getContext());
             locationClient.requestSingleUpdate(new CLocationListener() {
                 @Override
                 public void onLocateSuccess(CLocationClient locationClient, CLocation location) {
