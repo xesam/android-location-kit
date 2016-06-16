@@ -23,4 +23,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile files('libs/AMap_Location_V2.4.0_20160308.jar')
     compile project(':lib-location-core')
+    compile files('libs/AMap_Location_V2.5.0_20160526.jar')
 }

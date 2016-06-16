@@ -33,7 +33,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile project(':lib-locatioin-baidu-6.2.3')
-    compile project(':lib-location-gaode-2.4')
+    compile project(':lib-location-gaode')
     compile project(':lib-location-android')
     compile project(':lib-location-core')
     compile 'com.leo.simplearcloader:simplearcloader:1.0.1'
