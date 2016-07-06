@@ -5,7 +5,6 @@ import android.location.Criteria;
 import android.location.LocationManager;
 
 import dev.xeam.android.lib.location.CLocationClient;
-import dev.xeam.android.lib.location.CLocationConstant;
 import dev.xeam.android.lib.location.CLocationListener;
 
 /**
@@ -39,7 +38,7 @@ public class AndroidLocationClient implements CLocationClient {
     public void startLocation() {
         Criteria criteria = getDefaultOption();
         mLocationManager.requestLocationUpdates(
-                CLocationConstant.LOCATION_INTERVAL,
+                1000,
                 0,
                 criteria,
                 new NormalLocationListener(this),
