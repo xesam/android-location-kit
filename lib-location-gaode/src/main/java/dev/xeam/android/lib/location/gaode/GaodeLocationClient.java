@@ -16,26 +16,15 @@ import dev.xeam.android.lib.location.CLocationOption;
 public class GaodeLocationClient implements CLocationClient {
 
     private Context mContext;
-    public AMapLocationClient mLocationClient = null;
-    private CLocationListener mLocationListener;
+    private AMapLocationClient mUpdatesClient;
+    private NormalLocationListener mLocationListener;
 
-    public GaodeLocationClient(Context context, long interval, CLocationListener locationListener) {
+    public GaodeLocationClient(Context context) {
         this.mContext = context.getApplicationContext();
-        this.mLocationListener = locationListener;
-
-        NormalLocationListener mNormalLocationListener = new NormalLocationListener(this, locationListener);
-        mLocationClient = new AMapLocationClient(context.getApplicationContext());
-        mLocationClient.setLocationListener(mNormalLocationListener);
-        AMapLocationClientOption option = getDefaultOption();
-        option.setInterval(interval);
-        mLocationClient.setLocationOption(option);
     }
 
-
-    private AMapLocationClient mSingleUpdateClient;
-    private AMapLocationClient mUpdatesClient;
-
     private AMapLocationClientOption getDefaultOption() {
+
         //初始化定位参数
         AMapLocationClientOption option = new AMapLocationClientOption();
         //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
@@ -74,7 +63,7 @@ public class GaodeLocationClient implements CLocationClient {
 
     @Override
     public void requestSingleUpdate(CLocationListener locationListener) {
-        final AMapLocationClient aMapLocationClient = new AMapLocationClient(mContext.getApplicationContext());
+        final AMapLocationClient aMapLocationClient = new AMapLocationClient(mContext);
         AMapLocationClientOption option = getDefaultOption();
         option.setOnceLocation(true);
         aMapLocationClient.setLocationOption(option);
@@ -87,53 +76,70 @@ public class GaodeLocationClient implements CLocationClient {
         aMapLocationClient.startLocation();
     }
 
-    public void requestSingleUpdate(CLocationOption option, CLocationListener locationListener) {
-        if (mSingleUpdateClient == null) {
-            mSingleUpdateClient = new AMapLocationClient(mContext.getApplicationContext());
-        }
-        option.setLocationOnce(true);
+//    public void requestSingleUpdate(CLocationOption option, CLocationListener locationListener) {
+//        if (mSingleUpdateClient == null) {
+//            mSingleUpdateClient = new AMapLocationClient(mContext.getApplicationContext());
+//        }
+//        option.setLocationOnce(true);
+//
+//        AMapLocationClientOption aOption = getDefaultOption();
+//        mSingleUpdateClient.setLocationOption(aOption);
+//        mSingleUpdateClient.setLocationListener(new NormalLocationListener(this, locationListener));
+//        if (locationListener != null) {
+//            locationListener.onLocateStart(this);
+//        }
+//        mSingleUpdateClient.startLocation();
+//    }
 
-        AMapLocationClientOption aOption = getDefaultOption();
-        aOption.setOnceLocation(true);
-        mSingleUpdateClient.setLocationOption(aOption);
-        mSingleUpdateClient.setLocationListener(new NormalLocationListener(this, locationListener));
-        if (locationListener != null) {
-            locationListener.onLocateStart(this);
-        }
-        mSingleUpdateClient.startLocation();
+    public void requestSingleUpdate(CLocationOption option, CLocationListener locationListener) {
+        option.setLocationOnce(true);
+        final AMapLocationClient aMapLocationClient = new AMapLocationClient(mContext);
+        AMapLocationClientOption aOption = parseOption(option);
+        aMapLocationClient.setLocationOption(aOption);
+        aMapLocationClient.setLocationListener(new NormalLocationListener(this, locationListener, new Runnable() {
+            @Override
+            public void run() {
+                aMapLocationClient.onDestroy();
+            }
+        }));
+        aMapLocationClient.startLocation();
     }
 
     public void requestLocationUpdates(CLocationOption option, CLocationListener locationListener) {
-        if (mUpdatesClient == null) {
-            mUpdatesClient = new AMapLocationClient(mContext.getApplicationContext());
+        if (mUpdatesClient == null || mLocationListener == null) {
+            mUpdatesClient = new AMapLocationClient(mContext);
+            mLocationListener = new NormalLocationListener(this);
+            mUpdatesClient.setLocationListener(mLocationListener);
+        } else {
+            mUpdatesClient.stopLocation();
         }
 
+        mLocationListener.attach(locationListener);
         AMapLocationClientOption aOption = parseOption(option);
         mUpdatesClient.setLocationOption(aOption);
-        mUpdatesClient.setLocationListener(new NormalLocationListener(this, locationListener));
-        if (locationListener != null) {
-            locationListener.onLocateStart(this);
-        }
+        mLocationListener.onLocateStart(this);
         mUpdatesClient.startLocation();
     }
 
+    public void shutdown() {
+        if (mUpdatesClient != null) {
+            mUpdatesClient.stopLocation();
+            mUpdatesClient.onDestroy();
+            mUpdatesClient = null;
+        }
+        if (mLocationListener != null) {
+            mLocationListener.onLocateStop(this);
+            mLocationListener = null;
+        }
+    }
 
     @Override
     public void startLocation() {
-        mLocationClient.startLocation();
-        if (mLocationListener != null) {
-            mLocationListener.onLocateStart(this);
-        }
+
     }
 
     @Override
     public void stopLocation() {
-        mLocationClient.stopLocation();
-//        if (mLocationListener != null) {
-//            mLocationListener.onLocateStop(this);
-//        }
-        if (mUpdatesClient != null) {
-            mUpdatesClient.stopLocation();
-        }
+
     }
 }

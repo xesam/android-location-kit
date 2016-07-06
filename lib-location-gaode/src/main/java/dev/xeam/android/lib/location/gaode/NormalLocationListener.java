@@ -6,13 +6,16 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 
 import dev.xeam.android.lib.location.CLocation;
+import dev.xeam.android.lib.location.CLocationClient;
 import dev.xeam.android.lib.location.CLocationException;
 import dev.xeam.android.lib.location.CLocationListener;
 
 /**
  * Created by xesamguo@gmail.com on 16-6-15.
  */
-class NormalLocationListener implements AMapLocationListener {
+class NormalLocationListener implements AMapLocationListener, CLocationListener {
+
+    public static final String TAG = NormalLocationListener.class.getSimpleName();
 
     private GaodeLocationClient mLocationClient;
     private CLocationListener mCLocationListener;
@@ -32,6 +35,10 @@ class NormalLocationListener implements AMapLocationListener {
         this.mCallback = callback;
     }
 
+    public void attach(CLocationListener c) {
+        this.mCLocationListener = c;
+    }
+
     @Override
     public void onLocationChanged(AMapLocation rawLocation) {
         if (rawLocation != null) {
@@ -45,20 +52,47 @@ class NormalLocationListener implements AMapLocationListener {
                         rawLocation.getLongitude()
                 );
 
-                if (mCLocationListener != null) {
-                    mCLocationListener.onLocateSuccess(mLocationClient, location);
-                }
-                Log.e("gaode_changed", location.toString());
+                onLocateSuccess(mLocationClient, location);
             } else {
                 CLocationException exception = new CLocationException(rawLocation.getErrorCode(), rawLocation.getErrorInfo());
-                if (mCLocationListener != null) {
-                    mCLocationListener.onLocateFail(mLocationClient, exception);
-                }
-                Log.e("gaode_error", exception.toString());
+                onLocateFail(mLocationClient, exception);
             }
         }
         if (mCallback != null) {
             mCallback.run();
         }
+    }
+
+    @Override
+    public void onLocateStart(CLocationClient locationClient) {
+        Log.e(TAG, "onLocateStart");
+        if (mCLocationListener != null) {
+            mCLocationListener.onLocateStart(locationClient);
+        }
+    }
+
+    @Override
+    public void onLocateStop(CLocationClient locationClient) {
+        Log.e(TAG, "onLocateStop");
+        if (mCLocationListener != null) {
+            mCLocationListener.onLocateStop(locationClient);
+        }
+    }
+
+    @Override
+    public void onLocateSuccess(CLocationClient locationClient, CLocation location) {
+        Log.e(TAG, location.toString());
+        if (mCLocationListener != null) {
+            mCLocationListener.onLocateSuccess(locationClient, location);
+        }
+    }
+
+    @Override
+    public void onLocateFail(CLocationClient locationClient, CLocationException e) {
+        Log.e(TAG, e.toString());
+        if (mCLocationListener != null) {
+            mCLocationListener.onLocateFail(locationClient, e);
+        }
+
     }
 }

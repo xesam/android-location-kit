@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import dev.xeam.android.lib.location.CLocation;
 import dev.xeam.android.lib.location.CLocationClient;
 import dev.xeam.android.lib.location.CLocationException;
 import dev.xeam.android.lib.location.CLocationListener;
+import dev.xeam.android.lib.location.CLocationOption;
 import dev.xeam.android.lib.location.gaode.GaodeLocationClient;
 
 
@@ -77,12 +79,12 @@ public class GaodeFragment extends Fragment {
         ButterKnife.bind(this, view);
     }
 
-    CLocationClient mCLocationClient;
+    GaodeLocationClient mCLocationClient;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mCLocationClient = new GaodeLocationClient(getContext(), 10_000, null);
+        mCLocationClient = new GaodeLocationClient(getContext());
     }
 
     @Override
@@ -92,8 +94,9 @@ public class GaodeFragment extends Fragment {
 
     @OnClick(R.id.request_single)
     public void requestSingle() {
-        CLocationClient locationClient = new GaodeLocationClient(getContext(), 10_000, null);
-        locationClient.requestSingleUpdate(new CLocationListener() {
+        CLocationOption option = new CLocationOption();
+
+        mCLocationClient.requestSingleUpdate(option, new CLocationListener() {
             @Override
             public void onLocateStart(CLocationClient locationClient) {
 
@@ -118,11 +121,36 @@ public class GaodeFragment extends Fragment {
 
     @OnClick(R.id.start_locate)
     public void startLocate() {
-        mCLocationClient.startLocation();
+        CLocationOption option = new CLocationOption();
+        option.setLocationInterval(3_000);
+        mCLocationClient.requestLocationUpdates(option, new CLocationListener() {
+            @Override
+            public void onLocateStart(CLocationClient locationClient) {
+                Log.e("requestLocationUpdates", "onLocateStart");
+            }
+
+            @Override
+            public void onLocateStop(CLocationClient locationClient) {
+                Log.e("requestLocationUpdates", "onLocateStop");
+            }
+
+            @Override
+            public void onLocateSuccess(CLocationClient locationClient, CLocation location) {
+                Log.e("requestLocationUpdates", "onLocateSuccess");
+                vConsole.setText(location.toString());
+            }
+
+            @Override
+            public void onLocateFail(CLocationClient locationClient, CLocationException e) {
+                Log.e("requestLocationUpdates", "onLocateFail");
+                vConsole.setText(e.toString());
+            }
+        });
+//        mCLocationClient.startLocation();
     }
 
     @OnClick(R.id.stop_locate)
     public void stopLocate() {
-        mCLocationClient.stopLocation();
+        mCLocationClient.shutdown();
     }
 }

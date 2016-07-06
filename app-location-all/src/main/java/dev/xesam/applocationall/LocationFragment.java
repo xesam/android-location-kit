@@ -12,14 +12,7 @@ import android.widget.TextSwitcher;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import dev.xeam.android.lib.location.CLocation;
 import dev.xeam.android.lib.location.CLocationClient;
-import dev.xeam.android.lib.location.CLocationException;
-import dev.xeam.android.lib.location.CLocationListener;
-import dev.xeam.android.lib.location.baidu.BaiduLocationClient;
-import dev.xeam.android.lib.location.fw.AndroidLocationClient;
-import dev.xeam.android.lib.location.gaode.GaodeLocationClient;
 
 
 public class LocationFragment extends Fragment {
@@ -84,101 +77,11 @@ public class LocationFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (mType == Type.GAODE) {
-            mCLocationClient = new GaodeLocationClient(getContext(), 10_000, null);
-        } else if (mType == Type.BAIDU) {
-            mCLocationClient = new BaiduLocationClient(getContext());
-        } else if (mType == Type.ANDROID) {
-            mCLocationClient = new AndroidLocationClient(getContext());
-        }
+
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-    }
-
-    @OnClick(R.id.request_single)
-    public void requestSingle() {
-        if (mType == Type.GAODE) {
-            CLocationClient locationClient = new GaodeLocationClient(getContext(), 10_000, null);
-            locationClient.requestSingleUpdate(new CLocationListener() {
-                @Override
-                public void onLocateStart(CLocationClient locationClient) {
-
-                }
-
-                @Override
-                public void onLocateStop(CLocationClient locationClient) {
-
-                }
-
-                @Override
-                public void onLocateSuccess(CLocationClient locationClient, CLocation location) {
-                    vConsole.setText(location.toString());
-                }
-
-                @Override
-                public void onLocateFail(CLocationClient locationClient, CLocationException e) {
-                    vConsole.setText(e.toString());
-                }
-            });
-        } else if (mType == Type.BAIDU) {
-            CLocationClient locationClient = new BaiduLocationClient(getContext());
-            locationClient.requestSingleUpdate(new CLocationListener() {
-                @Override
-                public void onLocateStart(CLocationClient locationClient) {
-
-                }
-
-                @Override
-                public void onLocateStop(CLocationClient locationClient) {
-
-                }
-
-                @Override
-                public void onLocateSuccess(CLocationClient locationClient, CLocation location) {
-                    vConsole.setText(location.toString());
-                }
-
-                @Override
-                public void onLocateFail(CLocationClient locationClient, CLocationException e) {
-                    vConsole.setText(e.toString());
-                }
-            });
-        } else if (mType == Type.ANDROID) {
-            CLocationClient locationClient = new AndroidLocationClient(getContext());
-            locationClient.requestSingleUpdate(new CLocationListener() {
-                @Override
-                public void onLocateStart(CLocationClient locationClient) {
-
-                }
-
-                @Override
-                public void onLocateStop(CLocationClient locationClient) {
-
-                }
-
-                @Override
-                public void onLocateSuccess(CLocationClient locationClient, CLocation location) {
-                    vConsole.setText(location.toString());
-                }
-
-                @Override
-                public void onLocateFail(CLocationClient locationClient, CLocationException e) {
-                    vConsole.setText(e.toString());
-                }
-            });
-        }
-    }
-
-    @OnClick(R.id.start_locate)
-    public void startLocate() {
-        mCLocationClient.startLocation();
-    }
-
-    @OnClick(R.id.stop_locate)
-    public void stopLocate() {
-        mCLocationClient.stopLocation();
     }
 }
