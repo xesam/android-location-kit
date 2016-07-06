@@ -85,6 +85,7 @@ public class GaodeFragment extends Fragment {
     @OnClick(R.id.request_single_reuse_true)
     public void requestSingle1() {
         CLocationOption option = new CLocationOption();
+        option.setReuse(true);
 
         mCLocationClient.requestSingleUpdate(option, new CLocationListener() {
             @Override
@@ -112,7 +113,7 @@ public class GaodeFragment extends Fragment {
     @OnClick(R.id.request_single_reuse_false)
     public void requestSingle2() {
         CLocationOption option = new CLocationOption();
-
+        option.setReuse(false);
         mCLocationClient.requestSingleUpdate(option, new CLocationListener() {
             @Override
             public void onLocateStart(CLocationClient locationClient) {
@@ -139,31 +140,30 @@ public class GaodeFragment extends Fragment {
     @OnClick(R.id.start_locate)
     public void startLocate() {
         CLocationOption option = new CLocationOption();
-        option.setLocationInterval(3_000);
+        option.setLocationInterval(10_000);
         mCLocationClient.requestLocationUpdates(option, new CLocationListener() {
             @Override
             public void onLocateStart(CLocationClient locationClient) {
-                Log.e("requestLocationUpdates", "onLocateStart");
+                Log.d("requestLocationUpdates", "onLocateStart");
             }
 
             @Override
             public void onLocateStop(CLocationClient locationClient) {
-                Log.e("requestLocationUpdates", "onLocateStop");
+                Log.d("requestLocationUpdates", "onLocateStop");
             }
 
             @Override
             public void onLocateSuccess(CLocationClient locationClient, CLocation location) {
-                Log.e("requestLocationUpdates", "onLocateSuccess");
+                Log.d("requestLocationUpdates", "onLocateSuccess");
                 vConsole.setText(location.toString());
             }
 
             @Override
             public void onLocateFail(CLocationClient locationClient, CLocationException e) {
-                Log.e("requestLocationUpdates", "onLocateFail");
+                Log.d("requestLocationUpdates", "onLocateFail");
                 vConsole.setText(e.toString());
             }
         });
-//        mCLocationClient.startLocation();
     }
 
     @OnClick(R.id.stop_locate)

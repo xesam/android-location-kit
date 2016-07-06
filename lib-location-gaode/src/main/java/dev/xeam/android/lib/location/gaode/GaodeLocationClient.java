@@ -101,7 +101,6 @@ public class GaodeLocationClient implements CLocationClient {
                     aMapLocationClient.onDestroy();
                 }
             });
-            listener.onLocateStart(this);
             requestSingleUpdate(aMapLocationClient, option, listener);
         }
     }
