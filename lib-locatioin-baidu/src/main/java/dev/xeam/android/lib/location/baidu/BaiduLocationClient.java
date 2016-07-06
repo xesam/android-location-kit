@@ -96,19 +96,4 @@ public class BaiduLocationClient implements CLocationClient {
         }
     }
 
-//    @Override
-//    public void requestSingleUpdate(CLocationListener locationListener) {
-//        final LocationClient bdLocationClient = new LocationClient(mContext);     //声明LocationClient类
-//        bdLocationClient.registerLocationListener(new NormalLocationListener(this, locationListener, new Runnable() {
-//            @Override
-//            public void run() {
-//                bdLocationClient.stop();
-//            }
-//        }));
-//        LocationClientOption option = getDefaultOption();
-//        option.setScanSpan(0);
-//        bdLocationClient.setLocOption(option);
-//        bdLocationClient.start();
-//    }
-
 }
