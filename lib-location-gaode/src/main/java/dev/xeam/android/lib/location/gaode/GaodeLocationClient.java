@@ -17,6 +17,7 @@ public class GaodeLocationClient implements CLocationClient {
 
     private Context mContext;
     private AMapLocationClient mUpdatesClient;
+    private AMapLocationClient mSingleUpdateClient;
     private NormalLocationListener mLocationListener;
 
     public GaodeLocationClient(Context context) {
@@ -76,33 +77,33 @@ public class GaodeLocationClient implements CLocationClient {
         aMapLocationClient.startLocation();
     }
 
-//    public void requestSingleUpdate(CLocationOption option, CLocationListener locationListener) {
-//        if (mSingleUpdateClient == null) {
-//            mSingleUpdateClient = new AMapLocationClient(mContext.getApplicationContext());
-//        }
-//        option.setLocationOnce(true);
-//
-//        AMapLocationClientOption aOption = getDefaultOption();
-//        mSingleUpdateClient.setLocationOption(aOption);
-//        mSingleUpdateClient.setLocationListener(new NormalLocationListener(this, locationListener));
-//        if (locationListener != null) {
-//            locationListener.onLocateStart(this);
-//        }
-//        mSingleUpdateClient.startLocation();
-//    }
+    private void requestSingleUpdate(AMapLocationClient client, CLocationOption option, NormalLocationListener listener) {
+        AMapLocationClientOption aOption = parseOption(option);
+        client.setLocationOption(aOption);
+        client.setLocationListener(listener);
+        listener.onLocateStart(this);
+        client.startLocation();
+    }
 
     public void requestSingleUpdate(CLocationOption option, CLocationListener locationListener) {
         option.setLocationOnce(true);
-        final AMapLocationClient aMapLocationClient = new AMapLocationClient(mContext);
-        AMapLocationClientOption aOption = parseOption(option);
-        aMapLocationClient.setLocationOption(aOption);
-        aMapLocationClient.setLocationListener(new NormalLocationListener(this, locationListener, new Runnable() {
-            @Override
-            public void run() {
-                aMapLocationClient.onDestroy();
+        if (option.isReuse()) {
+            if (mSingleUpdateClient == null) {
+                mSingleUpdateClient = new AMapLocationClient(mContext.getApplicationContext());
             }
-        }));
-        aMapLocationClient.startLocation();
+            NormalLocationListener listener = new NormalLocationListener(this, locationListener);
+            requestSingleUpdate(mSingleUpdateClient, option, listener);
+        } else {
+            final AMapLocationClient aMapLocationClient = new AMapLocationClient(mContext);
+            NormalLocationListener listener = new NormalLocationListener(this, locationListener, new Runnable() {
+                @Override
+                public void run() {
+                    aMapLocationClient.onDestroy();
+                }
+            });
+            listener.onLocateStart(this);
+            requestSingleUpdate(aMapLocationClient, option, listener);
+        }
     }
 
     public void requestLocationUpdates(CLocationOption option, CLocationListener locationListener) {
@@ -122,6 +123,12 @@ public class GaodeLocationClient implements CLocationClient {
     }
 
     public void shutdown() {
+        if (mSingleUpdateClient != null) {
+            mSingleUpdateClient.stopLocation();
+            mSingleUpdateClient.onDestroy();
+            mSingleUpdateClient = null;
+        }
+
         if (mUpdatesClient != null) {
             mUpdatesClient.stopLocation();
             mUpdatesClient.onDestroy();

@@ -16,6 +16,7 @@ public final class CLocationOption {
     private long timeout = 30 * 1000;
     private boolean needAddress = false;
     private boolean locationOnce = false;
+    private boolean reuse = false; // 复用 client，可以节省流量
 
     public int getLocationMode() {
         return locationMode;
@@ -58,5 +59,13 @@ public final class CLocationOption {
 
     public boolean isOnce() {
         return locationOnce || locationInterval < LOCATION_INTERVAL_DEFAULT;
+    }
+
+    public boolean isReuse() {
+        return reuse;
+    }
+
+    public void setReuse(boolean reuse) {
+        this.reuse = reuse;
     }
 }

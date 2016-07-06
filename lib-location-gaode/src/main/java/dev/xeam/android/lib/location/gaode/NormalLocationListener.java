@@ -65,7 +65,7 @@ class NormalLocationListener implements AMapLocationListener, CLocationListener 
 
     @Override
     public void onLocateStart(CLocationClient locationClient) {
-        Log.e(TAG, "onLocateStart");
+        Log.d(TAG, "onLocateStart");
         if (mCLocationListener != null) {
             mCLocationListener.onLocateStart(locationClient);
         }
@@ -73,7 +73,7 @@ class NormalLocationListener implements AMapLocationListener, CLocationListener 
 
     @Override
     public void onLocateStop(CLocationClient locationClient) {
-        Log.e(TAG, "onLocateStop");
+        Log.d(TAG, "onLocateStop");
         if (mCLocationListener != null) {
             mCLocationListener.onLocateStop(locationClient);
         }
@@ -81,7 +81,7 @@ class NormalLocationListener implements AMapLocationListener, CLocationListener 
 
     @Override
     public void onLocateSuccess(CLocationClient locationClient, CLocation location) {
-        Log.e(TAG, location.toString());
+        Log.d(TAG, location.toString());
         if (mCLocationListener != null) {
             mCLocationListener.onLocateSuccess(locationClient, location);
         }
@@ -89,7 +89,7 @@ class NormalLocationListener implements AMapLocationListener, CLocationListener 
 
     @Override
     public void onLocateFail(CLocationClient locationClient, CLocationException e) {
-        Log.e(TAG, e.toString());
+        Log.d(TAG, e.toString());
         if (mCLocationListener != null) {
             mCLocationListener.onLocateFail(locationClient, e);
         }

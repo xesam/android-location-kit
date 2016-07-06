@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextSwitcher;
 
 import butterknife.Bind;
@@ -26,15 +25,6 @@ public class BaiduFragment extends Fragment {
 
     private int mType;
     private String mTitle;
-
-    @Bind(R.id.request_single)
-    public Button vSingle;
-
-    @Bind(R.id.start_locate)
-    public Button vStart;
-
-    @Bind(R.id.stop_locate)
-    public Button vStop;
 
     @Bind(R.id.console)
     public TextSwitcher vConsole;
@@ -90,8 +80,8 @@ public class BaiduFragment extends Fragment {
         super.onDetach();
     }
 
-    @OnClick(R.id.request_single)
-    public void requestSingle() {
+    @OnClick(R.id.request_single_reuse_false)
+    public void requestSingle2() {
         CLocationClient locationClient = new BaiduLocationClient(getContext());
         locationClient.requestSingleUpdate(new CLocationListener() {
             @Override

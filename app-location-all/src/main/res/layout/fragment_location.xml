@@ -7,10 +7,15 @@
     tools:context="dev.xesam.applocationall.LocationFragment">
 
     <Button
-        android:id="@+id/request_single"
+        android:id="@+id/request_single_reuse_false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="发起单次定位" />
+        android:text="发起单次定位 reuse = false" />
+    <Button
+        android:id="@+id/request_single_reuse_true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="发起单次定位 reuse = true" />
 
     <Button
         android:id="@+id/start_locate"

@@ -26,16 +26,7 @@ public class FwFragment extends Fragment {
 
     private int mType;
     private String mTitle;
-
-    @Bind(R.id.request_single)
-    public Button vSingle;
-
-    @Bind(R.id.start_locate)
-    public Button vStart;
-
-    @Bind(R.id.stop_locate)
-    public Button vStop;
-
+    
     @Bind(R.id.console)
     public TextSwitcher vConsole;
 
@@ -90,8 +81,8 @@ public class FwFragment extends Fragment {
         super.onDetach();
     }
 
-    @OnClick(R.id.request_single)
-    public void requestSingle() {
+    @OnClick(R.id.request_single_reuse_false)
+    public void requestSingle2() {
 
         CLocationClient locationClient = new AndroidLocationClient(getContext());
         locationClient.requestSingleUpdate(new CLocationListener() {

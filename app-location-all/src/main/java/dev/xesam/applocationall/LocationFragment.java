@@ -22,15 +22,6 @@ public class LocationFragment extends Fragment {
     private int mType;
     private String mTitle;
 
-    @Bind(R.id.request_single)
-    public Button vSingle;
-
-    @Bind(R.id.start_locate)
-    public Button vStart;
-
-    @Bind(R.id.stop_locate)
-    public Button vStop;
-
     @Bind(R.id.console)
     public TextSwitcher vConsole;
 
