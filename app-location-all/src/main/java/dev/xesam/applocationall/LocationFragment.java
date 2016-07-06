@@ -13,13 +13,13 @@ import android.widget.TextSwitcher;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import dev.xesam.libbaidulocatioin.BaiduLocationClient;
-import dev.xesam.libgaodelocation.GaodeLocationClient;
-import dev.xesam.liblocation.CLocation;
-import dev.xesam.liblocation.CLocationClient;
-import dev.xesam.liblocation.CLocationException;
-import dev.xesam.liblocation.CLocationListener;
-import dev.xesam.liblocationandroid.AndroidLocationClient;
+import dev.xeam.android.lib.location.CLocation;
+import dev.xeam.android.lib.location.CLocationClient;
+import dev.xeam.android.lib.location.CLocationException;
+import dev.xeam.android.lib.location.CLocationListener;
+import dev.xeam.android.lib.location.baidu.BaiduLocationClient;
+import dev.xeam.android.lib.location.fw.AndroidLocationClient;
+import dev.xeam.android.lib.location.gaode.GaodeLocationClient;
 
 
 public class LocationFragment extends Fragment {
@@ -85,7 +85,7 @@ public class LocationFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (mType == Type.GAODE) {
-            mCLocationClient = new GaodeLocationClient(getContext());
+            mCLocationClient = new GaodeLocationClient(getContext(), 10_000, null);
         } else if (mType == Type.BAIDU) {
             mCLocationClient = new BaiduLocationClient(getContext());
         } else if (mType == Type.ANDROID) {
@@ -101,8 +101,18 @@ public class LocationFragment extends Fragment {
     @OnClick(R.id.request_single)
     public void requestSingle() {
         if (mType == Type.GAODE) {
-            CLocationClient locationClient = new GaodeLocationClient(getContext());
+            CLocationClient locationClient = new GaodeLocationClient(getContext(), 10_000, null);
             locationClient.requestSingleUpdate(new CLocationListener() {
+                @Override
+                public void onLocateStart(CLocationClient locationClient) {
+
+                }
+
+                @Override
+                public void onLocateStop(CLocationClient locationClient) {
+
+                }
+
                 @Override
                 public void onLocateSuccess(CLocationClient locationClient, CLocation location) {
                     vConsole.setText(location.toString());
@@ -117,6 +127,16 @@ public class LocationFragment extends Fragment {
             CLocationClient locationClient = new BaiduLocationClient(getContext());
             locationClient.requestSingleUpdate(new CLocationListener() {
                 @Override
+                public void onLocateStart(CLocationClient locationClient) {
+
+                }
+
+                @Override
+                public void onLocateStop(CLocationClient locationClient) {
+
+                }
+
+                @Override
                 public void onLocateSuccess(CLocationClient locationClient, CLocation location) {
                     vConsole.setText(location.toString());
                 }
@@ -129,6 +149,16 @@ public class LocationFragment extends Fragment {
         } else if (mType == Type.ANDROID) {
             CLocationClient locationClient = new AndroidLocationClient(getContext());
             locationClient.requestSingleUpdate(new CLocationListener() {
+                @Override
+                public void onLocateStart(CLocationClient locationClient) {
+
+                }
+
+                @Override
+                public void onLocateStop(CLocationClient locationClient) {
+
+                }
+
                 @Override
                 public void onLocateSuccess(CLocationClient locationClient, CLocation location) {
                     vConsole.setText(location.toString());

@@ -1,4 +1,4 @@
-package dev.xesam.libgaodelocation;
+package dev.xeam.android.lib.location.gaode;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

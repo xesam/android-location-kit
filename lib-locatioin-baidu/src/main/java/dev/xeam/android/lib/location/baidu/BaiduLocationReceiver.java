@@ -1,4 +1,4 @@
-package dev.xesam.libbaidulocatioin;
+package dev.xeam.android.lib.location.baidu;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

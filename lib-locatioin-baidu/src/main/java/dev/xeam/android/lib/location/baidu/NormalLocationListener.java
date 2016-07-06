@@ -1,4 +1,4 @@
-package dev.xesam.libbaidulocatioin;
+package dev.xeam.android.lib.location.baidu;
 
 import android.util.Log;
 
@@ -10,9 +10,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import dev.xesam.liblocation.CLocation;
-import dev.xesam.liblocation.CLocationException;
-import dev.xesam.liblocation.CLocationListener;
+import dev.xeam.android.lib.location.CLocation;
+import dev.xeam.android.lib.location.CLocationException;
+import dev.xeam.android.lib.location.CLocationListener;
 
 /**
  * Created by xesamguo@gmail.com on 16-6-15.

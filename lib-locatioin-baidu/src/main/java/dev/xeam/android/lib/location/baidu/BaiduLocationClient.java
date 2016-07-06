@@ -1,13 +1,13 @@
-package dev.xesam.libbaidulocatioin;
+package dev.xeam.android.lib.location.baidu;
 
 import android.content.Context;
 
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 
-import dev.xesam.liblocation.CLocationClient;
-import dev.xesam.liblocation.CLocationConstant;
-import dev.xesam.liblocation.CLocationListener;
+import dev.xeam.android.lib.location.CLocationClient;
+import dev.xeam.android.lib.location.CLocationConstant;
+import dev.xeam.android.lib.location.CLocationListener;
 
 /**
  * Created by xesamguo@gmail.com on 16-3-14.

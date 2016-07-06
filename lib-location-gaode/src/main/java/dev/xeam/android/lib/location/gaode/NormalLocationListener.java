@@ -1,13 +1,13 @@
-package dev.xesam.libgaodelocation;
+package dev.xeam.android.lib.location.gaode;
 
 import android.util.Log;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 
-import dev.xesam.liblocation.CLocation;
-import dev.xesam.liblocation.CLocationException;
-import dev.xesam.liblocation.CLocationListener;
+import dev.xeam.android.lib.location.CLocation;
+import dev.xeam.android.lib.location.CLocationException;
+import dev.xeam.android.lib.location.CLocationListener;
 
 /**
  * Created by xesamguo@gmail.com on 16-6-15.

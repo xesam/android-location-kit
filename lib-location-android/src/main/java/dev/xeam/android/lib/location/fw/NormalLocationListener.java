@@ -1,4 +1,4 @@
-package dev.xesam.liblocationandroid;
+package dev.xeam.android.lib.location.fw;
 
 import android.location.Location;
 import android.location.LocationListener;
@@ -7,8 +7,8 @@ import android.util.Log;
 
 import java.util.Date;
 
-import dev.xesam.liblocation.CLocation;
-import dev.xesam.liblocation.CLocationListener;
+import dev.xeam.android.lib.location.CLocation;
+import dev.xeam.android.lib.location.CLocationListener;
 
 /**
  * Created by xesamguo@gmail.com on 16-6-15.

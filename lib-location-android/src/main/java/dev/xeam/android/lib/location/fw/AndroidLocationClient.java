@@ -1,12 +1,12 @@
-package dev.xesam.liblocationandroid;
+package dev.xeam.android.lib.location.fw;
 
 import android.content.Context;
 import android.location.Criteria;
 import android.location.LocationManager;
 
-import dev.xesam.liblocation.CLocationClient;
-import dev.xesam.liblocation.CLocationConstant;
-import dev.xesam.liblocation.CLocationListener;
+import dev.xeam.android.lib.location.CLocationClient;
+import dev.xeam.android.lib.location.CLocationConstant;
+import dev.xeam.android.lib.location.CLocationListener;
 
 /**
  * Created by xesamguo@gmail.com on 16-6-14.
