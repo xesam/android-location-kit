@@ -50,7 +50,14 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public Fragment getItem(int position) {
-                return LocationFragment.newInstance(getType(position), getTitle(position));
+                switch (position) {
+                    case 0:
+                        return FwFragment.newInstance(getType(position), getTitle(position));
+                    case 1:
+                        return BaiduFragment.newInstance(getType(position), getTitle(position));
+                    default:
+                        return GaodeFragment.newInstance(getType(position), getTitle(position));
+                }
             }
 
             @Override
