@@ -24,19 +24,6 @@ public class GaodeLocationClient implements CLocationClient {
         this.mContext = context.getApplicationContext();
     }
 
-    private AMapLocationClientOption getDefaultOption() {
-
-        //初始化定位参数
-        AMapLocationClientOption option = new AMapLocationClientOption();
-        //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
-        option.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
-        //设置是否强制刷新WIFI，默认为强制刷新
-        option.setWifiActiveScan(true);
-        //设置是否允许模拟位置,默认为false，不允许模拟位置
-        option.setMockEnable(false);
-        return option;
-    }
-
     private AMapLocationClientOption parseOption(CLocationOption option) {
         AMapLocationClientOption aOption = new AMapLocationClientOption();
         switch (option.getLocationMode()) {
@@ -60,21 +47,6 @@ public class GaodeLocationClient implements CLocationClient {
         aOption.setNeedAddress(option.isNeedAddress());
         aOption.setHttpTimeOut(option.getTimeout());
         return aOption;
-    }
-
-    @Override
-    public void requestSingleUpdate(CLocationListener locationListener) {
-        final AMapLocationClient aMapLocationClient = new AMapLocationClient(mContext);
-        AMapLocationClientOption option = getDefaultOption();
-        option.setOnceLocation(true);
-        aMapLocationClient.setLocationOption(option);
-        aMapLocationClient.setLocationListener(new NormalLocationListener(this, locationListener, new Runnable() {
-            @Override
-            public void run() {
-                aMapLocationClient.onDestroy();
-            }
-        }));
-        aMapLocationClient.startLocation();
     }
 
     private void requestSingleUpdate(AMapLocationClient client, CLocationOption option, NormalLocationListener listener) {
@@ -137,15 +109,5 @@ public class GaodeLocationClient implements CLocationClient {
             mLocationListener.onLocateStop(this);
             mLocationListener = null;
         }
-    }
-
-    @Override
-    public void startLocation() {
-
-    }
-
-    @Override
-    public void stopLocation() {
-
     }
 }

@@ -6,62 +6,109 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 
 import dev.xeam.android.lib.location.CLocationClient;
-import dev.xeam.android.lib.location.CLocationConstant;
 import dev.xeam.android.lib.location.CLocationListener;
+import dev.xeam.android.lib.location.CLocationMode;
+import dev.xeam.android.lib.location.CLocationOption;
 
 /**
  * Created by xesamguo@gmail.com on 16-3-14.
  */
 public class BaiduLocationClient implements CLocationClient {
-    public com.baidu.location.LocationClient mLocationClient = null;
 
     private Context mContext;
+    private LocationClient mUpdatesClient;
+    private LocationClient mSingleUpdateClient;
+    private NormalLocationListener mLocationListener;
 
     public BaiduLocationClient(Context context) {
         mContext = context.getApplicationContext();
-        mLocationClient = new LocationClient(mContext);
-        mLocationClient.registerLocationListener(new NormalLocationListener(this));
-        mLocationClient.setLocOption(getDefaultOption());
     }
 
-    private LocationClientOption getDefaultOption() {
-        LocationClientOption option = new LocationClientOption();
-        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
-        option.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系
-        option.setScanSpan(CLocationConstant.LOCATION_INTERVAL);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
-//        option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
-        option.setOpenGps(true);//可选，默认false,设置是否使用gps
-//        option.setLocationNotify(true);//可选，默认false，设置是否当gps有效时按照1S1次频率输出GPS结果
-//        option.setIsNeedLocationDescribe(true);//可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，结果类似于“在北京天安门附近”
-//        option.setIsNeedLocationPoiList(true);//可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
-        option.setIgnoreKillProcess(false);//可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
-        option.SetIgnoreCacheException(false);//可选，默认false，设置是否收集CRASH信息，默认收集
-//        option.setEnableSimulateGps(false);//可选，默认false，设置是否需要过滤gps仿真结果，默认需要
-        return option;
+    private LocationClientOption parseOption(CLocationOption option) {
+        LocationClientOption bOption = new LocationClientOption();
+
+        switch (option.getLocationMode()) {
+            case CLocationMode.MODE_BATTERY_SAVING:
+                bOption.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
+                break;
+            case CLocationMode.MODE_DEVICE_SENSOR:
+                bOption.setLocationMode(LocationClientOption.LocationMode.Device_Sensors);
+                break;
+            default:
+                bOption.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
+                break;
+        }
+
+        bOption.setCoorType("bd09ll");
+        if (option.isOnce()) {
+            bOption.setScanSpan(0);
+        } else {
+            bOption.setScanSpan((int) option.getLocationInterval());
+        }
+        bOption.setIsNeedAddress(option.isNeedAddress());
+        bOption.setOpenGps(true);
+        bOption.setIgnoreKillProcess(false);//可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
+        bOption.SetIgnoreCacheException(false);//可选，默认false，设置是否收集CRASH信息，默认收集
+        return bOption;
     }
 
-    @Override
-    public void requestSingleUpdate(CLocationListener locationListener) {
-        final LocationClient bdLocationClient = new LocationClient(mContext);     //声明LocationClient类
-        bdLocationClient.registerLocationListener(new NormalLocationListener(this, locationListener, new Runnable() {
-            @Override
-            public void run() {
-                bdLocationClient.stop();
-            }
-        }));
-        LocationClientOption option = getDefaultOption();
-        option.setScanSpan(0);
-        bdLocationClient.setLocOption(option);
-        bdLocationClient.start();
+    private NormalLocationListener mSingleListener;
+
+    public void requestSingleUpdate(CLocationOption option, CLocationListener locationListener) {
+        final boolean isFirst = mSingleUpdateClient == null || mSingleListener == null;
+        if (isFirst) {
+            mSingleUpdateClient = new LocationClient(mContext);
+            mSingleListener = new NormalLocationListener(this);
+            mSingleUpdateClient.registerLocationListener(mSingleListener);
+        }
+
+        mSingleListener.attach(locationListener);
+        mSingleUpdateClient.setLocOption(parseOption(option));
+        if (isFirst) {
+            mSingleUpdateClient.start();
+        } else {
+            mSingleUpdateClient.requestLocation();
+        }
     }
 
-    @Override
-    public void startLocation() {
-        mLocationClient.start();
+    public void requestLocationUpdates(CLocationOption option, CLocationListener locationListener) {
+        if (mUpdatesClient == null || mLocationListener == null) {
+            mUpdatesClient = new LocationClient(mContext);
+            mLocationListener = new NormalLocationListener(this, locationListener);
+            mUpdatesClient.registerLocationListener(mLocationListener);
+        } else {
+            mUpdatesClient.stop();
+        }
+
+        mUpdatesClient.setLocOption(parseOption(option));
+        mUpdatesClient.start();
     }
 
-    @Override
-    public void stopLocation() {
-        mLocationClient.stop();
+    public void shutdown() {
+        if (mSingleUpdateClient != null) {
+            mSingleUpdateClient.stop();
+            mSingleUpdateClient = null;
+        }
+        if (mUpdatesClient != null) {
+            mUpdatesClient.stop();
+            mUpdatesClient.unRegisterLocationListener(mLocationListener);
+            mUpdatesClient = null;
+        }
     }
+
+//    @Override
+//    public void requestSingleUpdate(CLocationListener locationListener) {
+//        final LocationClient bdLocationClient = new LocationClient(mContext);     //声明LocationClient类
+//        bdLocationClient.registerLocationListener(new NormalLocationListener(this, locationListener, new Runnable() {
+//            @Override
+//            public void run() {
+//                bdLocationClient.stop();
+//            }
+//        }));
+//        LocationClientOption option = getDefaultOption();
+//        option.setScanSpan(0);
+//        bdLocationClient.setLocOption(option);
+//        bdLocationClient.start();
+//    }
+
 }

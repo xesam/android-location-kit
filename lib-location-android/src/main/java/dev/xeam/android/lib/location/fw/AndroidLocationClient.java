@@ -31,13 +31,11 @@ public class AndroidLocationClient implements CLocationClient {
         return criteria;
     }
 
-    @Override
     public void requestSingleUpdate(CLocationListener locationListener) {
         Criteria criteria = getDefaultOption();
         mLocationManager.requestSingleUpdate(criteria, new NormalLocationListener(this, locationListener), null);
     }
 
-    @Override
     public void startLocation() {
         Criteria criteria = getDefaultOption();
         mLocationManager.requestLocationUpdates(
@@ -48,7 +46,6 @@ public class AndroidLocationClient implements CLocationClient {
                 null);
     }
 
-    @Override
     public void stopLocation() {
 
     }

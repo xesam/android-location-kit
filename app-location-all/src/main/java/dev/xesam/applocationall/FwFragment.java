@@ -26,7 +26,7 @@ public class FwFragment extends Fragment {
 
     private int mType;
     private String mTitle;
-    
+
     @Bind(R.id.console)
     public TextSwitcher vConsole;
 
@@ -68,7 +68,7 @@ public class FwFragment extends Fragment {
         ButterKnife.bind(this, view);
     }
 
-    CLocationClient mCLocationClient;
+    AndroidLocationClient mCLocationClient;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -84,8 +84,7 @@ public class FwFragment extends Fragment {
     @OnClick(R.id.request_single_reuse_false)
     public void requestSingle2() {
 
-        CLocationClient locationClient = new AndroidLocationClient(getContext());
-        locationClient.requestSingleUpdate(new CLocationListener() {
+        mCLocationClient.requestSingleUpdate(new CLocationListener() {
             @Override
             public void onLocateStart(CLocationClient locationClient) {
 
