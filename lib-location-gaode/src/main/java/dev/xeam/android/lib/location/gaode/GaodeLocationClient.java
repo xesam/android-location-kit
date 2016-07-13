@@ -18,7 +18,8 @@ public class GaodeLocationClient implements CLocationClient {
     private Context mContext;
     private AMapLocationClient mUpdatesClient;
     private AMapLocationClient mSingleUpdateClient;
-    private NormalLocationListener mLocationListener;
+    private NormalLocationListener mSingleLocationListener;
+    private NormalLocationListener mUpdatesLocationListener;
 
     public GaodeLocationClient(Context context) {
         this.mContext = context.getApplicationContext();
@@ -52,7 +53,6 @@ public class GaodeLocationClient implements CLocationClient {
     private void requestSingleUpdate(AMapLocationClient client, CLocationOption option, NormalLocationListener listener) {
         AMapLocationClientOption aOption = parseOption(option);
         client.setLocationOption(aOption);
-        client.setLocationListener(listener);
         listener.onLocateStart(this);
         client.startLocation();
     }
@@ -62,34 +62,36 @@ public class GaodeLocationClient implements CLocationClient {
         if (option.isReuse()) {
             if (mSingleUpdateClient == null) {
                 mSingleUpdateClient = new AMapLocationClient(mContext.getApplicationContext());
+                mSingleLocationListener = new NormalLocationListener(this);
+                mSingleUpdateClient.setLocationListener(mSingleLocationListener);
             }
-            NormalLocationListener listener = new NormalLocationListener(this, locationListener);
-            requestSingleUpdate(mSingleUpdateClient, option, listener);
+            requestSingleUpdate(mSingleUpdateClient, option, mSingleLocationListener);
         } else {
-            final AMapLocationClient aMapLocationClient = new AMapLocationClient(mContext);
+            final AMapLocationClient tmp = new AMapLocationClient(mContext);
             NormalLocationListener listener = new NormalLocationListener(this, locationListener, new Runnable() {
                 @Override
                 public void run() {
-                    aMapLocationClient.onDestroy();
+                    tmp.onDestroy();
                 }
             });
-            requestSingleUpdate(aMapLocationClient, option, listener);
+            tmp.setLocationListener(listener);
+            requestSingleUpdate(tmp, option, listener);
         }
     }
 
     public void requestLocationUpdates(CLocationOption option, CLocationListener locationListener) {
-        if (mUpdatesClient == null || mLocationListener == null) {
+        if (mUpdatesClient == null || mUpdatesLocationListener == null) {
             mUpdatesClient = new AMapLocationClient(mContext);
-            mLocationListener = new NormalLocationListener(this);
-            mUpdatesClient.setLocationListener(mLocationListener);
+            mUpdatesLocationListener = new NormalLocationListener(this);
+            mUpdatesClient.setLocationListener(mUpdatesLocationListener);
         } else {
             mUpdatesClient.stopLocation();
         }
 
-        mLocationListener.attach(locationListener);
+        mUpdatesLocationListener.attach(locationListener);
         AMapLocationClientOption aOption = parseOption(option);
         mUpdatesClient.setLocationOption(aOption);
-        mLocationListener.onLocateStart(this);
+        mUpdatesLocationListener.onLocateStart(this);
         mUpdatesClient.startLocation();
     }
 
@@ -99,15 +101,18 @@ public class GaodeLocationClient implements CLocationClient {
             mSingleUpdateClient.onDestroy();
             mSingleUpdateClient = null;
         }
-
+        if (mSingleLocationListener != null) {
+            mSingleLocationListener.onLocateStop(this);
+            mSingleLocationListener = null;
+        }
         if (mUpdatesClient != null) {
             mUpdatesClient.stopLocation();
             mUpdatesClient.onDestroy();
             mUpdatesClient = null;
         }
-        if (mLocationListener != null) {
-            mLocationListener.onLocateStop(this);
-            mLocationListener = null;
+        if (mUpdatesLocationListener != null) {
+            mUpdatesLocationListener.onLocateStop(this);
+            mUpdatesLocationListener = null;
         }
     }
 }
