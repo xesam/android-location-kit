@@ -24,6 +24,10 @@ public abstract class CAbsLocationListener<C> implements CLocationListener {
         this.mCLocationListener = c;
     }
 
+    public void detach() {
+        this.mCLocationListener = null;
+    }
+
     @Override
     public void onLocateStart(CLocationClient locationClient) {
         Log.d(TAG, "onLocateStart");

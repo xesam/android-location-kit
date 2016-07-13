@@ -12,10 +12,6 @@ import android.widget.TextSwitcher;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import dev.xeam.android.lib.location.CLocation;
-import dev.xeam.android.lib.location.CLocationClient;
-import dev.xeam.android.lib.location.CLocationException;
-import dev.xeam.android.lib.location.CLocationListener;
 import dev.xeam.android.lib.location.CLocationOption;
 import dev.xeam.android.lib.location.gaode.GaodeLocationClient;
 
@@ -98,7 +94,7 @@ public class GaodeFragment extends Fragment {
     @OnClick(R.id.start_locate)
     public void startUpdates() {
         CLocationOption option = new CLocationOption();
-        option.setLocationInterval(10_000);
+        option.setLocationInterval(5_000);
         mCLocationClient.requestLocationUpdates(option, new SimpleLocationListener(vConsole));
     }
 

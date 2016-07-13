@@ -62,5 +62,4 @@ class NormalLocationListener extends CAbsLocationListener<BaiduLocationClient> i
             onLocateFail(mLocationClient, exception);
         }
     }
-
 }

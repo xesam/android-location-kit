@@ -59,7 +59,12 @@ public class BaiduLocationClient implements CLocationClient {
         final boolean isFirst = mSingleUpdateClient == null || mSingleListener == null;
         if (isFirst) {
             mSingleUpdateClient = new LocationClient(mContext);
-            mSingleListener = new NormalLocationListener(this);
+            mSingleListener = new NormalLocationListener(this, null, new Runnable() {
+                @Override
+                public void run() {
+                    mSingleListener.detach();
+                }
+            });
             mSingleUpdateClient.registerLocationListener(mSingleListener);
         }
 
@@ -72,7 +77,20 @@ public class BaiduLocationClient implements CLocationClient {
         }
     }
 
+    public void removeSingle() {
+
+        if (mSingleUpdateClient != null) {
+            mSingleUpdateClient.unRegisterLocationListener(mSingleListener);
+            mSingleUpdateClient = null;
+            mSingleListener = null;
+        }
+    }
+
     public void requestLocationUpdates(CLocationOption option, CLocationListener locationListener) {
+
+        // timer update is conflict with single update
+        removeSingle();
+
         if (mUpdatesClient == null || mLocationListener == null) {
             mUpdatesClient = new LocationClient(mContext);
             mLocationListener = new NormalLocationListener(this, locationListener);
