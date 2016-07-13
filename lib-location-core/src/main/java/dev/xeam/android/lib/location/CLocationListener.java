@@ -7,8 +7,6 @@ public interface CLocationListener {
 
     void onLocateStart(CLocationClient locationClient);
 
-    void onLocateStop(CLocationClient locationClient);
-
     void onLocateSuccess(CLocationClient locationClient, CLocation location);
 
     void onLocateFail(CLocationClient locationClient, CLocationException e);

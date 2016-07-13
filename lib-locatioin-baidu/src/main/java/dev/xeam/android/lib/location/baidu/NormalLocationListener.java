@@ -138,14 +138,6 @@ class NormalLocationListener implements BDLocationListener, CLocationListener {
     }
 
     @Override
-    public void onLocateStop(CLocationClient locationClient) {
-        Log.d(TAG, "onLocateStop");
-        if (mCLocationListener != null) {
-            mCLocationListener.onLocateStop(locationClient);
-        }
-    }
-
-    @Override
     public void onLocateSuccess(CLocationClient locationClient, CLocation location) {
         Log.d(TAG, location.toString());
         if (mCLocationListener != null) {

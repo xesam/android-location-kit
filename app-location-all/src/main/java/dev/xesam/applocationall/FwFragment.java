@@ -91,11 +91,6 @@ public class FwFragment extends Fragment {
             }
 
             @Override
-            public void onLocateStop(CLocationClient locationClient) {
-
-            }
-
-            @Override
             public void onLocateSuccess(CLocationClient locationClient, CLocation location) {
                 vConsole.setText(location.toString());
             }

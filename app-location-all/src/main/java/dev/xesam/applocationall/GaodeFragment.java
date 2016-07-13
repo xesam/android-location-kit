@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,22 +89,17 @@ public class GaodeFragment extends Fragment {
         mCLocationClient.requestSingleUpdate(option, new CLocationListener() {
             @Override
             public void onLocateStart(CLocationClient locationClient) {
-
-            }
-
-            @Override
-            public void onLocateStop(CLocationClient locationClient) {
-
+                vConsole.setText("requestSingleUpdate: onLocateStart");
             }
 
             @Override
             public void onLocateSuccess(CLocationClient locationClient, CLocation location) {
-                vConsole.setText(location.toString());
+                vConsole.setText("requestSingleUpdate:" + location.toString());
             }
 
             @Override
             public void onLocateFail(CLocationClient locationClient, CLocationException e) {
-                vConsole.setText(e.toString());
+                vConsole.setText("requestSingleUpdate:" + e.toString());
             }
         });
     }
@@ -117,22 +111,17 @@ public class GaodeFragment extends Fragment {
         mCLocationClient.requestSingleUpdate(option, new CLocationListener() {
             @Override
             public void onLocateStart(CLocationClient locationClient) {
-
-            }
-
-            @Override
-            public void onLocateStop(CLocationClient locationClient) {
-
+                vConsole.setText("requestSingleUpdate: onLocateStart");
             }
 
             @Override
             public void onLocateSuccess(CLocationClient locationClient, CLocation location) {
-                vConsole.setText(location.toString());
+                vConsole.setText("requestSingleUpdate:" + location.toString());
             }
 
             @Override
             public void onLocateFail(CLocationClient locationClient, CLocationException e) {
-                vConsole.setText(e.toString());
+                vConsole.setText("requestSingleUpdate:" + e.toString());
             }
         });
     }
@@ -144,24 +133,17 @@ public class GaodeFragment extends Fragment {
         mCLocationClient.requestLocationUpdates(option, new CLocationListener() {
             @Override
             public void onLocateStart(CLocationClient locationClient) {
-                Log.d("requestLocationUpdates", "onLocateStart");
-            }
-
-            @Override
-            public void onLocateStop(CLocationClient locationClient) {
-                Log.d("requestLocationUpdates", "onLocateStop");
+                vConsole.setText("requestLocationUpdates:onLocateStart");
             }
 
             @Override
             public void onLocateSuccess(CLocationClient locationClient, CLocation location) {
-                Log.d("requestLocationUpdates", "onLocateSuccess");
-                vConsole.setText(location.toString());
+                vConsole.setText("requestLocationUpdates:" + location.toString());
             }
 
             @Override
             public void onLocateFail(CLocationClient locationClient, CLocationException e) {
-                Log.d("requestLocationUpdates", "onLocateFail");
-                vConsole.setText(e.toString());
+                vConsole.setText("requestLocationUpdates:" + e.toString());
             }
         });
     }

@@ -65,6 +65,7 @@ public class GaodeLocationClient implements CLocationClient {
                 mSingleLocationListener = new NormalLocationListener(this);
                 mSingleUpdateClient.setLocationListener(mSingleLocationListener);
             }
+            mSingleLocationListener.attach(locationListener);
             requestSingleUpdate(mSingleUpdateClient, option, mSingleLocationListener);
         } else {
             final AMapLocationClient tmp = new AMapLocationClient(mContext);
@@ -102,7 +103,6 @@ public class GaodeLocationClient implements CLocationClient {
             mSingleUpdateClient = null;
         }
         if (mSingleLocationListener != null) {
-            mSingleLocationListener.onLocateStop(this);
             mSingleLocationListener = null;
         }
         if (mUpdatesClient != null) {
@@ -111,7 +111,6 @@ public class GaodeLocationClient implements CLocationClient {
             mUpdatesClient = null;
         }
         if (mUpdatesLocationListener != null) {
-            mUpdatesLocationListener.onLocateStop(this);
             mUpdatesLocationListener = null;
         }
     }

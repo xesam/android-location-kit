@@ -92,11 +92,6 @@ public class BaiduFragment extends Fragment {
             }
 
             @Override
-            public void onLocateStop(CLocationClient locationClient) {
-
-            }
-
-            @Override
             public void onLocateSuccess(CLocationClient locationClient, CLocation location) {
                 vConsole.setText(location.toString());
             }
@@ -115,11 +110,6 @@ public class BaiduFragment extends Fragment {
         mCLocationClient.requestLocationUpdates(option, new CLocationListener() {
             @Override
             public void onLocateStart(CLocationClient locationClient) {
-
-            }
-
-            @Override
-            public void onLocateStop(CLocationClient locationClient) {
 
             }
 
