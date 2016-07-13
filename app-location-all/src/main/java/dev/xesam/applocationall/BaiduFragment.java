@@ -84,49 +84,26 @@ public class BaiduFragment extends Fragment {
     @OnClick(R.id.request_single_reuse_false)
     public void requestSingle2() {
         CLocationOption option = new CLocationOption();
-        option.setLocationOnce(true);
-        mCLocationClient.requestSingleUpdate(option, new CLocationListener() {
-            @Override
-            public void onLocateStart(CLocationClient locationClient) {
+        option.setReuse(false);
+        mCLocationClient.requestSingleUpdate(option, new SimpleLocationListener(vConsole));
+    }
 
-            }
-
-            @Override
-            public void onLocateSuccess(CLocationClient locationClient, CLocation location) {
-                vConsole.setText(location.toString());
-            }
-
-            @Override
-            public void onLocateFail(CLocationClient locationClient, CLocationException e) {
-                vConsole.setText(e.toString());
-            }
-        });
+    @OnClick(R.id.request_single_reuse_true)
+    public void requestSingle1() {
+        CLocationOption option = new CLocationOption();
+        option.setReuse(true);
+        mCLocationClient.requestSingleUpdate(option, new SimpleLocationListener(vConsole));
     }
 
     @OnClick(R.id.start_locate)
-    public void startLocate() {
+    public void startUpdates() {
         CLocationOption option = new CLocationOption();
         option.setLocationInterval(10_000);
-        mCLocationClient.requestLocationUpdates(option, new CLocationListener() {
-            @Override
-            public void onLocateStart(CLocationClient locationClient) {
-
-            }
-
-            @Override
-            public void onLocateSuccess(CLocationClient locationClient, CLocation location) {
-                vConsole.setText(location.toString());
-            }
-
-            @Override
-            public void onLocateFail(CLocationClient locationClient, CLocationException e) {
-                vConsole.setText(e.toString());
-            }
-        });
+        mCLocationClient.requestLocationUpdates(option, new SimpleLocationListener(vConsole));
     }
 
     @OnClick(R.id.stop_locate)
-    public void stopLocate() {
-        mCLocationClient.shutdown();
+    public void removeUpdates() {
+        mCLocationClient.removeUpdates();
     }
 }

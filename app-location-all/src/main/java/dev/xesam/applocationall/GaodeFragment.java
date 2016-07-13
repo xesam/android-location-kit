@@ -81,71 +81,25 @@ public class GaodeFragment extends Fragment {
         super.onDetach();
     }
 
-    @OnClick(R.id.request_single_reuse_true)
-    public void requestSingle1() {
-        CLocationOption option = new CLocationOption();
-        option.setReuse(true);
-
-        mCLocationClient.requestSingleUpdate(option, new CLocationListener() {
-            @Override
-            public void onLocateStart(CLocationClient locationClient) {
-                vConsole.setText("requestSingleUpdate: onLocateStart");
-            }
-
-            @Override
-            public void onLocateSuccess(CLocationClient locationClient, CLocation location) {
-                vConsole.setText("requestSingleUpdate:" + location.toString());
-            }
-
-            @Override
-            public void onLocateFail(CLocationClient locationClient, CLocationException e) {
-                vConsole.setText("requestSingleUpdate:" + e.toString());
-            }
-        });
-    }
-
     @OnClick(R.id.request_single_reuse_false)
     public void requestSingle2() {
         CLocationOption option = new CLocationOption();
         option.setReuse(false);
-        mCLocationClient.requestSingleUpdate(option, new CLocationListener() {
-            @Override
-            public void onLocateStart(CLocationClient locationClient) {
-                vConsole.setText("requestSingleUpdate: onLocateStart");
-            }
+        mCLocationClient.requestSingleUpdate(option, new SimpleLocationListener(vConsole));
+    }
 
-            @Override
-            public void onLocateSuccess(CLocationClient locationClient, CLocation location) {
-                vConsole.setText("requestSingleUpdate:" + location.toString());
-            }
-
-            @Override
-            public void onLocateFail(CLocationClient locationClient, CLocationException e) {
-                vConsole.setText("requestSingleUpdate:" + e.toString());
-            }
-        });
+    @OnClick(R.id.request_single_reuse_true)
+    public void requestSingle1() {
+        CLocationOption option = new CLocationOption();
+        option.setReuse(true);
+        mCLocationClient.requestSingleUpdate(option, new SimpleLocationListener(vConsole));
     }
 
     @OnClick(R.id.start_locate)
     public void startUpdates() {
         CLocationOption option = new CLocationOption();
         option.setLocationInterval(10_000);
-        mCLocationClient.requestLocationUpdates(option, new CLocationListener() {
-            @Override
-            public void onLocateStart(CLocationClient locationClient) {
-                vConsole.setText("requestLocationUpdates:onLocateStart");
-            }
-
-            @Override
-            public void onLocateSuccess(CLocationClient locationClient, CLocation location) {
-                vConsole.setText("requestLocationUpdates:" + location.toString());
-            }
-
-            @Override
-            public void onLocateFail(CLocationClient locationClient, CLocationException e) {
-                vConsole.setText("requestLocationUpdates:" + e.toString());
-            }
-        });
+        mCLocationClient.requestLocationUpdates(option, new SimpleLocationListener(vConsole));
     }
 
     @OnClick(R.id.stop_locate)
