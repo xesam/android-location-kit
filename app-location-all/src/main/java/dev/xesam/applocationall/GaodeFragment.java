@@ -127,7 +127,7 @@ public class GaodeFragment extends Fragment {
     }
 
     @OnClick(R.id.start_locate)
-    public void startLocate() {
+    public void startUpdates() {
         CLocationOption option = new CLocationOption();
         option.setLocationInterval(10_000);
         mCLocationClient.requestLocationUpdates(option, new CLocationListener() {
@@ -149,7 +149,7 @@ public class GaodeFragment extends Fragment {
     }
 
     @OnClick(R.id.stop_locate)
-    public void stopLocate() {
-        mCLocationClient.shutdown();
+    public void removeUpdates() {
+        mCLocationClient.removeUpdates();
     }
 }

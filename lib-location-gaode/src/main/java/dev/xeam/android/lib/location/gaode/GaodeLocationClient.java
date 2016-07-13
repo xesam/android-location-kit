@@ -96,6 +96,17 @@ public class GaodeLocationClient implements CLocationClient {
         mUpdatesClient.startLocation();
     }
 
+    public void removeUpdates() {
+        if (mUpdatesClient != null) {
+            mUpdatesClient.stopLocation();
+            mUpdatesClient.onDestroy();
+            mUpdatesClient = null;
+        }
+        if (mUpdatesLocationListener != null) {
+            mUpdatesLocationListener = null;
+        }
+    }
+
     public void shutdown() {
         if (mSingleUpdateClient != null) {
             mSingleUpdateClient.stopLocation();
