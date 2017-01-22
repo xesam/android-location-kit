@@ -20,10 +20,6 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="0QtE2jeltjkmCNsY0nY3nObu5irWaWf4" />
-        <service
-            android:name="com.baidu.location.f"
-            android:enabled="true"
-            android:process=":remote" />
 
         <!--高德-->
         <meta-data
