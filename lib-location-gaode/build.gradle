@@ -4,3 +4,10 @@ dependencies {
     compile project(':lib-location-core')
     provided fileTree(include: ['*.jar'], dir: 'provided')
 }
+task makeAar(type: Copy) {
+    from('build/outputs/aar/')
+    into("${project.rootDir}/dist/")
+    include('lib-location-gaode-release.aar')
+}
+
+makeAar.dependsOn(build)
