@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextSwitcher;
 
 import butterknife.Bind;
@@ -20,7 +19,7 @@ import dev.xeam.android.lib.location.CLocationListener;
 import dev.xeam.android.lib.location.fw.AndroidLocationClient;
 
 
-public class FwFragment extends Fragment {
+public class AndroidFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -30,12 +29,12 @@ public class FwFragment extends Fragment {
     @Bind(R.id.console)
     public TextSwitcher vConsole;
 
-    public FwFragment() {
+    public AndroidFragment() {
         // Required empty public constructor
     }
 
-    public static FwFragment newInstance(int param1, String param2) {
-        FwFragment fragment = new FwFragment();
+    public static AndroidFragment newInstance(int param1, String param2) {
+        AndroidFragment fragment = new AndroidFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

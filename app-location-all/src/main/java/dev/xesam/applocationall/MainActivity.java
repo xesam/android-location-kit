@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             public Fragment getItem(int position) {
                 switch (position) {
                     case 0:
-                        return FwFragment.newInstance(getType(position), getTitle(position));
+                        return AndroidFragment.newInstance(getType(position), getTitle(position));
                     case 1:
                         return BaiduFragment.newInstance(getType(position), getTitle(position));
                     default:
