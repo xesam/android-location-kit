@@ -54,6 +54,7 @@ public class BaiduLocationClient implements CLocationClient {
 
     private NormalLocationListener mSingleListener;
 
+    @Override
     public void requestSingleUpdate(CLocationOption option, CLocationListener locationListener) {
         option.setLocationOnce(true);
         final boolean isFirst = mSingleUpdateClient == null || mSingleListener == null;
@@ -86,6 +87,7 @@ public class BaiduLocationClient implements CLocationClient {
         }
     }
 
+    @Override
     public void requestLocationUpdates(CLocationOption option, CLocationListener locationListener) {
 
         // timer update is conflict with single update
@@ -104,6 +106,7 @@ public class BaiduLocationClient implements CLocationClient {
         mUpdatesClient.start();
     }
 
+    @Override
     public void removeUpdates() {
         if (mUpdatesClient != null) {
             mUpdatesClient.stop();
@@ -112,6 +115,7 @@ public class BaiduLocationClient implements CLocationClient {
         }
     }
 
+    @Override
     public void shutdown() {
         if (mSingleUpdateClient != null) {
             mSingleUpdateClient.stop();

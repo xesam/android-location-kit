@@ -6,10 +6,12 @@ import android.location.LocationManager;
 
 import dev.xeam.android.lib.location.CLocationClient;
 import dev.xeam.android.lib.location.CLocationListener;
+import dev.xeam.android.lib.location.CLocationOption;
 
 /**
  * Created by xesamguo@gmail.com on 16-6-14.
  */
+// TODO: 17-2-23
 public class AndroidLocationClient implements CLocationClient {
 
     private Context mContext;
@@ -46,6 +48,26 @@ public class AndroidLocationClient implements CLocationClient {
     }
 
     public void stopLocation() {
+
+    }
+
+    @Override
+    public void requestSingleUpdate(CLocationOption option, CLocationListener locationListener) {
+
+    }
+
+    @Override
+    public void requestLocationUpdates(CLocationOption option, CLocationListener locationListener) {
+
+    }
+
+    @Override
+    public void removeUpdates() {
+
+    }
+
+    @Override
+    public void shutdown() {
 
     }
 }

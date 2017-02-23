@@ -57,6 +57,7 @@ public class GaodeLocationClient implements CLocationClient {
         client.startLocation();
     }
 
+    @Override
     public void requestSingleUpdate(CLocationOption option, CLocationListener locationListener) {
         option.setLocationOnce(true);
         if (option.isReuse()) {
@@ -80,6 +81,7 @@ public class GaodeLocationClient implements CLocationClient {
         }
     }
 
+    @Override
     public void requestLocationUpdates(CLocationOption option, CLocationListener locationListener) {
         if (mUpdatesClient == null || mUpdatesLocationListener == null) {
             mUpdatesClient = new AMapLocationClient(mContext);
@@ -96,6 +98,7 @@ public class GaodeLocationClient implements CLocationClient {
         mUpdatesClient.startLocation();
     }
 
+    @Override
     public void removeUpdates() {
         if (mUpdatesClient != null) {
             mUpdatesClient.stopLocation();
@@ -107,6 +110,7 @@ public class GaodeLocationClient implements CLocationClient {
         }
     }
 
+    @Override
     public void shutdown() {
         if (mSingleUpdateClient != null) {
             mSingleUpdateClient.stopLocation();

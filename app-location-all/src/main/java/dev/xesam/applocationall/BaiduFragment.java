@@ -12,6 +12,7 @@ import android.widget.TextSwitcher;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import dev.xeam.android.lib.location.CLocationClient;
 import dev.xeam.android.lib.location.CLocationOption;
 import dev.xeam.android.lib.location.baidu.BaiduLocationClient;
 
@@ -64,7 +65,7 @@ public class BaiduFragment extends Fragment {
         ButterKnife.bind(this, view);
     }
 
-    BaiduLocationClient mCLocationClient;
+    CLocationClient mCLocationClient;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
