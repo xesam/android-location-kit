@@ -7,7 +7,7 @@ import android.util.Log;
  */
 public abstract class CAbsLocationListener<C> implements CLocationListener {
 
-    public String TAG;
+    public final String TAG;
 
     protected final C mLocationClient;
     private CLocationListener mCLocationListener;

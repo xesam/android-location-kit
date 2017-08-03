@@ -37,7 +37,7 @@ class NormalLocationListener extends CAbsLocationListener<BaiduLocationClient> i
     @Override
     public void onReceiveLocation(BDLocation rawLocation) {
         mCount++;
-        Log.e("onReceiveLocation", hashCode() + ":" + mCount);
+        Log.d("onReceiveLocation", hashCode() + ":" + mCount);
 
         final int locType = rawLocation.getLocType();
 
