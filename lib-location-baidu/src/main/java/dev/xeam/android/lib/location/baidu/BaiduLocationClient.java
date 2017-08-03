@@ -20,8 +20,15 @@ public class BaiduLocationClient implements CLocationClient {
     private LocationClient mSingleUpdateClient;
     private NormalLocationListener mLocationListener;
 
+    private String mCoorType = "bd09ll";
+
     public BaiduLocationClient(Context context) {
         mContext = context.getApplicationContext();
+    }
+
+    public BaiduLocationClient(Context context, String coorType) {
+        this(context);
+        mCoorType = coorType;
     }
 
     private LocationClientOption parseOption(CLocationOption option) {
@@ -39,7 +46,7 @@ public class BaiduLocationClient implements CLocationClient {
                 break;
         }
 
-        bOption.setCoorType("bd09ll");
+        bOption.setCoorType(mCoorType);
         if (option.isOnce()) {
             bOption.setScanSpan(0);
         } else {

@@ -62,4 +62,9 @@ class NormalLocationListener extends CAbsLocationListener<BaiduLocationClient> i
             onLocateFail(mLocationClient, exception);
         }
     }
+
+    @Override
+    public void onConnectHotSpotMessage(String s, int i) {
+        //ignore
+    }
 }

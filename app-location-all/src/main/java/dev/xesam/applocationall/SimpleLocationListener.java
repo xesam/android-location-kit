@@ -1,5 +1,7 @@
 package dev.xesam.applocationall;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.TextSwitcher;
 
 import dev.xeam.android.lib.location.CLocation;
@@ -20,16 +22,31 @@ public class SimpleLocationListener implements CLocationListener {
 
     @Override
     public void onLocateStart(CLocationClient locationClient) {
-        vConsole.setText("requestLocationUpdates:onLocateStart");
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                vConsole.setText("requestLocationUpdates:onLocateStart");
+            }
+        });
     }
 
     @Override
-    public void onLocateSuccess(CLocationClient locationClient, CLocation location) {
-        vConsole.setText("requestLocationUpdates:" + location.toString());
+    public void onLocateSuccess(CLocationClient locationClient, final CLocation location) {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                vConsole.setText("requestLocationUpdates:" + location.toString());
+            }
+        });
     }
 
     @Override
-    public void onLocateFail(CLocationClient locationClient, CLocationException e) {
-        vConsole.setText("requestLocationUpdates:" + e.toString());
+    public void onLocateFail(CLocationClient locationClient, final CLocationException e) {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                vConsole.setText("requestLocationUpdates:" + e.toString());
+            }
+        });
     }
 }
