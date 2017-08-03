@@ -9,6 +9,7 @@ import dev.xeam.android.lib.location.CLocationClient;
 import dev.xeam.android.lib.location.CLocationListener;
 import dev.xeam.android.lib.location.CLocationMode;
 import dev.xeam.android.lib.location.CLocationOption;
+import dev.xeam.android.lib.location.CLocationType;
 
 /**
  * Created by xesamguo@gmail.com on 16-3-14.
@@ -54,6 +55,11 @@ public class GaodeLocationClient implements CLocationClient {
         client.setLocationOption(aOption);
         listener.onLocateStart(this);
         client.startLocation();
+    }
+
+    @Override
+    public CLocationType getType() {
+        return new AmapType();
     }
 
     @Override

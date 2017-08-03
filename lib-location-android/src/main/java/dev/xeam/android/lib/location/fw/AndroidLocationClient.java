@@ -7,6 +7,7 @@ import android.location.LocationManager;
 import dev.xeam.android.lib.location.CLocationClient;
 import dev.xeam.android.lib.location.CLocationListener;
 import dev.xeam.android.lib.location.CLocationOption;
+import dev.xeam.android.lib.location.CLocationType;
 
 /**
  * Created by xesamguo@gmail.com on 16-6-14.
@@ -49,6 +50,11 @@ public class AndroidLocationClient implements CLocationClient {
 
     public void stopLocation() {
 
+    }
+
+    @Override
+    public CLocationType getType() {
+        return new FwType();
     }
 
     @Override

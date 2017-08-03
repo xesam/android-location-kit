@@ -9,6 +9,7 @@ import dev.xeam.android.lib.location.CLocationClient;
 import dev.xeam.android.lib.location.CLocationListener;
 import dev.xeam.android.lib.location.CLocationMode;
 import dev.xeam.android.lib.location.CLocationOption;
+import dev.xeam.android.lib.location.CLocationType;
 
 /**
  * Created by xesamguo@gmail.com on 16-3-14.
@@ -60,6 +61,11 @@ public class BaiduLocationClient implements CLocationClient {
     }
 
     private NormalLocationListener mSingleListener;
+
+    @Override
+    public CLocationType getType() {
+        return new BaiduType();
+    }
 
     @Override
     public void requestSingleUpdate(CLocationOption option, CLocationListener locationListener) {
