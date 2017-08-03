@@ -22,39 +22,44 @@ public final class CLocationOption {
         return locationMode;
     }
 
-    public void setLocationMode(int locationMode) {
+    public CLocationOption setLocationMode(int locationMode) {
         this.locationMode = locationMode;
+        return this;
     }
 
     public long getLocationInterval() {
         return locationInterval;
     }
 
-    public void setLocationInterval(long locationInterval) {
+    public CLocationOption setLocationInterval(long locationInterval) {
         if (locationInterval < LOCATION_INTERVAL_DEFAULT) {
             Log.w(TAG, "locationInterval is too small,locationInterval=" + locationInterval);
         }
         this.locationInterval = locationInterval;
+        return this;
     }
 
     public long getTimeout() {
         return timeout;
     }
 
-    public void setTimeout(long timeout) {
+    public CLocationOption setTimeout(long timeout) {
         this.timeout = timeout;
+        return this;
     }
 
     public boolean isNeedAddress() {
         return needAddress;
     }
 
-    public void setNeedAddress(boolean needAddress) {
+    public CLocationOption setNeedAddress(boolean needAddress) {
         this.needAddress = needAddress;
+        return this;
     }
 
-    public void setLocationOnce(boolean locationOnce) {
+    public CLocationOption setLocationOnce(boolean locationOnce) {
         this.locationOnce = locationOnce;
+        return this;
     }
 
     public boolean isOnce() {

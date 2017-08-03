@@ -105,6 +105,7 @@ public class GaodeLocationClient implements CLocationClient {
             mUpdatesClient = null;
         }
         if (mUpdatesLocationListener != null) {
+            mUpdatesLocationListener.detach();
             mUpdatesLocationListener = null;
         }
     }
@@ -117,6 +118,7 @@ public class GaodeLocationClient implements CLocationClient {
             mSingleUpdateClient = null;
         }
         if (mSingleLocationListener != null) {
+            mSingleLocationListener.detach();
             mSingleLocationListener = null;
         }
         if (mUpdatesClient != null) {
@@ -125,6 +127,7 @@ public class GaodeLocationClient implements CLocationClient {
             mUpdatesClient = null;
         }
         if (mUpdatesLocationListener != null) {
+            mUpdatesLocationListener.detach();
             mUpdatesLocationListener = null;
         }
     }
