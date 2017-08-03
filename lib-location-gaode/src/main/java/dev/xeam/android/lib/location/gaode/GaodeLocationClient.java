@@ -43,7 +43,6 @@ public class GaodeLocationClient implements CLocationClient {
         } else {
             aOption.setInterval(option.getLocationInterval());
         }
-        aOption.setWifiActiveScan(true);
         aOption.setMockEnable(false);
         aOption.setNeedAddress(option.isNeedAddress());
         aOption.setHttpTimeOut(option.getTimeout());
