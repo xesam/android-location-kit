@@ -1,1 +1,1 @@
-include  ':lib-location-core', ':lib-location-baidu', ':lib-location-gaode', ':app-location-all'
+include  ':location-api', ':location-spi-baidu', ':location-spi-gaode', ':app-location-all'

@@ -32,9 +32,9 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile project(':lib-location-baidu')
-    compile project(':lib-location-gaode')
-    compile project(':lib-location-core')
+    compile project(':location-spi-baidu')
+    compile project(':location-spi-gaode')
+    compile project(':location-api')
     compile 'com.android.support:appcompat-v7:27.1.1'
     compile 'com.android.support:design:27.1.1'
     compile 'com.android.support:support-v4:27.1.1'

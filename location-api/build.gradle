@@ -1,13 +1,11 @@
 apply from: '../build-lib.gradle'
 
 dependencies {
-    compile project(':lib-location-core')
-    provided fileTree(include: ['*.jar'], dir: 'provided')
 }
 task makeAar(type: Copy) {
     from('build/outputs/aar/')
     into("${project.rootDir}/dist/")
-    include('lib-location-baidu-release.aar')
+    include('location-api-release.aar')
 }
 
 makeAar.dependsOn(build)

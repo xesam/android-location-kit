@@ -23,13 +23,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        vViewPager.setOffscreenPageLimit(3);
+        vViewPager.setOffscreenPageLimit(2);
         vViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
 
             private int getType(int position) {
                 switch (position) {
-                    case 0:
-                        return Type.ANDROID;
                     case 1:
                         return Type.BAIDU;
                     default:
@@ -40,8 +38,6 @@ public class MainActivity extends AppCompatActivity {
             private String getTitle(int position) {
                 switch (position) {
                     case 0:
-                        return "Android";
-                    case 1:
                         return "百度";
                     default:
                         return "高德";
@@ -52,8 +48,6 @@ public class MainActivity extends AppCompatActivity {
             public Fragment getItem(int position) {
                 switch (position) {
                     case 0:
-                        return AndroidFragment.newInstance(getType(position), getTitle(position));
-                    case 1:
                         return BaiduFragment.newInstance(getType(position), getTitle(position));
                     default:
                         return GaodeFragment.newInstance(getType(position), getTitle(position));
@@ -62,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public int getCount() {
-                return 3;
+                return 2;
             }
 
             @Override
