@@ -1,5 +1,0 @@
-apply from: '../build-lib.gradle'
-
-dependencies {
-    compile project(':lib-location-core')
-}
