@@ -16,19 +16,20 @@ import dev.xeam.android.lib.location.CLocationType;
  */
 public class BaiduLocationClient implements CLocationClient {
 
+    private static final String DEFAULT_COORDINATE_TYPE = "bd09ll";
+
     private Context mContext;
     private LocationClient mUpdatesClient;
     private LocationClient mSingleUpdateClient;
     private NormalLocationListener mLocationListener;
-
-    private String mCoorType = "bd09ll";
+    private String mCoorType = DEFAULT_COORDINATE_TYPE;
 
     public BaiduLocationClient(Context context) {
-        mContext = context.getApplicationContext();
+        this(context, DEFAULT_COORDINATE_TYPE);
     }
 
     public BaiduLocationClient(Context context, String coorType) {
-        this(context);
+        mContext = context.getApplicationContext();
         mCoorType = coorType;
     }
 
