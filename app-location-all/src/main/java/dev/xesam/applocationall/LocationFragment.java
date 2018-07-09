@@ -7,10 +7,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextSwitcher;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.xeam.android.lib.location.CLocationClient;
 
@@ -22,7 +21,7 @@ public class LocationFragment extends Fragment {
     private int mType;
     private String mTitle;
 
-    @Bind(R.id.console)
+    @BindView(R.id.console)
     public TextSwitcher vConsole;
 
     public LocationFragment() {

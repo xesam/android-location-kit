@@ -7,14 +7,14 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
-    @Bind(R.id.tabs)
+    @BindView(R.id.tabs)
     public TabLayout vTabs;
-    @Bind(R.id.vp)
+    @BindView(R.id.vp)
     public ViewPager vViewPager;
 
     @Override
